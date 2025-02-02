@@ -7,14 +7,19 @@
 
 import SwiftUI
 
+
+
 @main
 struct Scrum_HelperApp: App {
-    let persistenceController = PersistenceController.shared
+    @StateObject var authState = AuthenticationState()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-        }
+            if authState.isLoggedIn {
+                DashboardView(authState: authState)
+            } else {
+                LoginView(authState: authState)
+            }
+        }.environmentObject(authState)
     }
 }
