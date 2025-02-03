@@ -10,7 +10,7 @@ import SwiftUI
 
 
 @main
-struct Scrum_HelperApp: App {
+struct ScrumHelperApp: App {
     @StateObject var authState = AuthenticationState()
 
     var body: some Scene {

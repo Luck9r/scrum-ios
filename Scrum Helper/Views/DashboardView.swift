@@ -15,26 +15,33 @@ struct DashboardView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                
-                VStack {
-                    Text("Scrum Helper")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
+                HStack {
+                    VStack {
                     
-                    Text("Welcome, \(viewModel.user?.name ?? "User")")
-                        .font(.title2)
-                        .foregroundColor(.white.opacity(0.8))
+                        Text("Scrum Helper")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal)
+                        Text("Welcome, \(viewModel.user?.name ?? "User")")
+                            .font(.title2)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal)
+                    
+                    }
+                    Image(.icon)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 70)
+                        .padding(.horizontal)
                 }
                 .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.secondary)
-                .clipShape(RoundedRectangle(cornerRadius: 15))
-                .padding(.horizontal)
+                .padding(.top, 20)
+                
                 
                 
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Available Boards")
+                    Text("Available Boards:")
                         .font(.headline)
                         .foregroundColor(.primary)
                     
@@ -52,8 +59,7 @@ struct DashboardView: View {
                             }
                             
                         }
-                        .listStyle(.insetGrouped)
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                        .listStyle(.inset)
                     } else {
                         Text("No boards available")
                             .foregroundColor(.gray)
@@ -65,7 +71,7 @@ struct DashboardView: View {
                 }
                 .padding(.horizontal)
                 
-                
+                Spacer()
                 Button(action: {
                     AuthService.logout(authState: authState) { _, _ in }
                 }) {
@@ -80,12 +86,12 @@ struct DashboardView: View {
                 }
                 .padding(.horizontal)
                 
-                Spacer()
+                
             }
         }
     }
 }
 
 #Preview {
-    DashboardView(authState: AuthenticationState())
+    DashboardView(authState: AuthenticationState()).preferredColorScheme(.dark)
 }

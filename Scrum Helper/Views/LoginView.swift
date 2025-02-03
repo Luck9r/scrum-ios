@@ -14,19 +14,17 @@ struct LoginView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            // App Icon
+            Spacer()
             Image(.icon)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 100, height: 100)
                 .padding(.top, 40)
 
-            // App Title
             Text("Scrum Helper")
                 .font(.largeTitle)
                 .fontWeight(.bold)
 
-            // Input Fields
             VStack(spacing: 15) {
                 TextField("Email", text: $viewModel.email)
                     .padding()
@@ -44,7 +42,6 @@ struct LoginView: View {
             }
             .padding(.horizontal)
 
-            // Login Button
             Button(action: {
                 viewModel.login(authState: authState)
             }) {
@@ -67,14 +64,13 @@ struct LoginView: View {
             .disabled(viewModel.isLoading)
             .padding(.horizontal)
 
-            // Error Message
             if let errorMessage = viewModel.errorMessage {
                 Text(errorMessage)
                     .foregroundColor(.red)
                     .padding()
                     .transition(.opacity)
             }
-
+            Spacer()
             Spacer()
         }
         .padding(.horizontal, 30)

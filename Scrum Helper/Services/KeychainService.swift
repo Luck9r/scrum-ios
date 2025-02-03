@@ -10,9 +10,8 @@ import Security
 import Foundation
 
 class KeychainService {
-    static let serviceName = "com.luck9r.scrum-helper.auth"
+    static let serviceName = "com.luck9r.ScrumHelper.auth"
 
-    // Save token
     static func save(key: String, value: String) {
         let data = value.data(using: .utf8)!
 
@@ -23,11 +22,10 @@ class KeychainService {
             kSecValueData as String: data
         ]
 
-        SecItemDelete(query as CFDictionary) // Delete any existing item
+        SecItemDelete(query as CFDictionary)
         SecItemAdd(query as CFDictionary, nil)
     }
 
-    // Retrieve token
     static func retrieve(key: String) -> String? {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
@@ -46,7 +44,6 @@ class KeychainService {
         return nil
     }
 
-    // Delete token
     static func delete(key: String) {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,

@@ -111,7 +111,7 @@ struct AuthService {
         }.resume()
     }
     
-    static func sendAuthenticatedRequest(url: String, completion: @escaping (String?, String?) -> Void) {
+    static func sendAuthenticatedRequest(url: String, params: [String: String] = [:], method: String? = "GET", completion: @escaping (String?, String?) -> Void) {
         let token = KeychainService.retrieve(key: "authToken") ?? ""
         guard let url = URL(string: "\(Constants.backendURL)\(url)") else {
             
@@ -120,8 +120,16 @@ struct AuthService {
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+            request.httpMethod = method
+
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        if params != [:] {
+            print(params)
+            request.httpBody = try? JSONSerialization.data(withJSONObject: params)
+        }
+        print(request)
+        
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {

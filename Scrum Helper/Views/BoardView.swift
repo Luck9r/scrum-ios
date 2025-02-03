@@ -11,128 +11,46 @@ struct BoardView: View {
     var board: Board
     @StateObject var viewModel: BoardViewModel
     
-    init (board: Board) {
+    init(board: Board) {
         self.board = board
         _viewModel = StateObject(wrappedValue: BoardViewModel(board: board))
-        
     }
     
     var body: some View {
-        HStack {
-            Text(board.title)
-                .font(.title)
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding([.top, .leading, .bottom], 25)
-            Spacer()
+        VStack {
             
-            Button {
-                // calendar button
-                
-            } label: {
-                Image(systemName: "calendar")
-                    .foregroundColor(.white)
-                    .padding(15)
-                    .background(Color.mint)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .padding(.trailing, 25)
-                
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    if viewModel.statuses.count != 0 {
+                        ForEach(viewModel.statuses, id: \.id) { status in
+                            StatusColumnView(status: status, tasks: viewModel.tasks)
+                        }
+                    } else {
+                        Text("No statuses available")
+                            .foregroundColor(.gray)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.gray.opacity(0.2))
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                        
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.top, 10)
             }
         }
-        .background(Color.secondary)
-        .clipShape(RoundedRectangle(cornerRadius: 15))
-        .padding(.horizontal)
-        
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                if viewModel.statuses.count != 0 {
-                    ForEach(viewModel.statuses, id: \.id) { status in
-                        VStack {
+        .navigationTitle(board.title)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(destination: CalendarView(board: board)) {
+                    
+                        Image(systemName: "calendar")
+                            .padding(15)
                             
-                            Text(status.name)
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding(10)
-                                .background(Color.teal)
-                                .clipShape(RoundedRectangle(cornerRadius: 8))
-                                .padding(.top, 10)
-                            
-                            
-                            if let tasks = viewModel.tasks {
-                                
-                                ForEach(tasks.filter { $0.statusId == status.id }, id: \.id) { task in
-                                    VStack {
-                                        HStack {
-                                            Text(task.slug)
-                                                .bold()
-                                            Spacer()
-                                            Text(task.title)
-                                                .lineLimit(1)
-                                            if let dueDate = task.dueDate {
-                                                Spacer()
-                                                Text(dueDate)
-                                                    .font(.caption)
-                                            }
-                                        }
-                                        Text(task.content ?? "")
-                                            .lineLimit(3)
-                                            .font(.footnote)
-                                        
-                                        HStack {
-                                            if let assigneeName = task.assigneeName {
-                                                Text(task.assigneeName)
-                                                    .font(.caption)
-                                                    .padding(5)
-                                                    .background(Color.blue)
-                                                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                                            }
-                                            if let priority = task.priority {
-                                                Text(task.priority)
-                                                    .font(.caption)
-                                                    .padding(5)
-                                                    .background(Color.orange)
-                                                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                                            }
-                                            Spacer()
-                                            
-                                        }
-                                        
-                                        
-                                    }.foregroundColor(.white)
-                                        .padding(10)
-                                        .frame(maxWidth: .infinity)
-                                        .background(Color.gray)
-                                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                                        .padding(.horizontal, 15)
-                                        .padding(.top, 5)
-                                    
-                                    
-                                    
-                                }
-                                Spacer()
-                            }
-                            
-                            
-                        }
-                        .frame(width: 300)
-                        .background(Color.gray.opacity(0.2))
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                        .padding(.horizontal)
-                    }
-                } else {
-                    Text("No statuses available")
-                        .foregroundColor(.gray)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.gray.opacity(0.2))
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
             }
-            .padding(.horizontal)
-            .padding(.top, 10)
-            
-            
         }
+        .navigationBarTitleDisplayMode(.large)
         
     }
 }
