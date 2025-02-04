@@ -23,6 +23,12 @@ class Helper {
         return "Invalid date"
     }
     
+    static func formatDateObject(_ dateObject: Date, format: String = "yyyy-MM-dd") -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: dateObject)
+    }
+    
     static func convertToDate(_ dateString: String) -> Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMM d"

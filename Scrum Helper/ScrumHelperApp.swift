@@ -11,7 +11,7 @@ import SwiftUI
 
 @main
 struct ScrumHelperApp: App {
-    @StateObject var authState = AuthenticationState()
+    @StateObject var authState = AuthState()
 
     var body: some Scene {
         WindowGroup {

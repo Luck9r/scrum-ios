@@ -9,7 +9,7 @@ import Foundation
 import SwiftUICore
 
 
-class AuthenticationState: ObservableObject {
+class AuthState: ObservableObject {
     @Published var isLoggedIn: Bool
 
     init() {
@@ -32,12 +32,12 @@ class AuthenticationState: ObservableObject {
 
 
 extension EnvironmentValues {
-    var authManager: AuthenticationState {
+    var authManager: AuthState {
         get { self[AuthStateKey.self] }
         set { self[AuthStateKey.self] = newValue }
     }
 }
 
 private struct AuthStateKey: EnvironmentKey {
-    static let defaultValue = AuthenticationState()
+    static let defaultValue = AuthState()
 }

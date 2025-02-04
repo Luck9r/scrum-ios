@@ -62,7 +62,7 @@ struct AuthService {
     }
     
     
-    static func logout(authState: AuthenticationState, completion: @escaping (String?, String?) -> Void) {
+    static func logout(authState: AuthState, completion: @escaping (String?, String?) -> Void) {
         let token = KeychainService.retrieve(key: "authToken") ?? ""
         guard let url = URL(string: "\(Constants.backendURL)/revoke-token") else {
             completion(nil, "Invalid URL")

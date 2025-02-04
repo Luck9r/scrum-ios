@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @ObservedObject var authState: AuthenticationState
+    @ObservedObject var authState: AuthState
     @StateObject var viewModel = DashboardViewModel()
 
     var body: some View {
@@ -83,6 +83,7 @@ struct DashboardView: View {
                         .foregroundColor(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .shadow(radius: 3)
+                        .opacity(0.6)
                 }
                 .padding(.horizontal)
                 
@@ -93,5 +94,5 @@ struct DashboardView: View {
 }
 
 #Preview {
-    DashboardView(authState: AuthenticationState()).preferredColorScheme(.dark)
+    DashboardView(authState: AuthState()).preferredColorScheme(.dark)
 }

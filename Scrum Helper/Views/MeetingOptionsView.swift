@@ -55,8 +55,35 @@ struct MeetingOptionsView: View {
     }
     
     func handleOptionSelection(option: String) {
-        //TODO: Implement
         print("\(option) selected for \(meeting.name)")
+        if option == "Will Be Late" {
+            sendDelayNotification()
+        } else if option == "Will Not Attend" {
+            sendAbsentNotification()
+        }
+        
+    }
+    
+    func sendDelayNotification() {
+        let parameters = ["datetime": meeting.datetime]
+        AuthService.sendAuthenticatedRequest(url: "/meeting/\(meeting.id)/late", params: parameters, method: "POST") { response, error in
+            if let response = response {
+                print("Late notification sent: \(response)")
+            } else {
+                print("Error sending late notification: \(String(describing: error))")
+            }
+        }
+    }
+    
+    func sendAbsentNotification() {
+        let parameters = ["datetime": meeting.datetime]
+        AuthService.sendAuthenticatedRequest(url: "/meeting/\(meeting.id)/absent", params: parameters, method: "POST") { response, error in
+            if let response = response {
+                print("Absence notification sent: \(response)")
+            } else {
+                print("Error sending absence notification: \(String(describing: error))")
+            }
+        }
     }
     
     func joinMeeting(_ meeting: Meeting) {

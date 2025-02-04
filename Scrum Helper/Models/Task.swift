@@ -20,8 +20,9 @@ struct Task: Codable, Identifiable {
     let statusId: Int?
     let creatorName: String?
     let assigneeName: String?
+    let assigneeId: Int?
     
     enum CodingKeys: String, CodingKey {
-        case id, slug, title, content, dueDate = "due_date", priority, status, statusId = "status_id", creatorName = "creator_name", assigneeName = "assignee_name"
+        case id, slug, title, content, dueDate = "due_date", priority, status, statusId = "status_id", creatorName = "creator_name", assigneeName = "assignee_name", assigneeId = "assignee_id"
     }
 }

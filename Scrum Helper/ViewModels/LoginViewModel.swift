@@ -15,7 +15,7 @@ class LoginViewModel: ObservableObject {
     @Published var errorMessage: String?
 
 
-    func login(authState: AuthenticationState) {
+    func login(authState: AuthState) {
         isLoading = true
         AuthService.login(email: email, password: password) { token, error in
             DispatchQueue.main.async {
